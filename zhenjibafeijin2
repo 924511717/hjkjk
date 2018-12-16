@@ -1,0 +1,260 @@
+
+哈尔滨理工大学
+软件与微电子学院
+
+《结构化程序设计（C）》
+项目实践报告
+
+
+题    目	： 设备管理信息
+班    级	：软件2班
+专    业	： 软件工程
+姓名	：梁思奇
+学号	：1714010213
+指导教师	：马超
+日期	： 2017/12/28
+
+
+
+
+
+目录
+一、需求分析	1
+二、系统设计	1
+（一）系统中的数据定义	1
+（二）系统的概要设计	2
+（三）系统的详细设计	2
+（四）系统的核心算法	2
+三、系统编码及运行	2
+（一）系统开发涉及的软件	2
+（二）系统运行界面及结果	2
+四、系统测试	2
+五、总结	2
+附录（源代码）	3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+一、需求分析
+1.输入数据   2.显示数据    3.查找数据    4.增加一条数据   5.删除一条数据
+6.退出
+系统管理了设备的设备号，数组，名称，数组，生产厂家，数组，购买日期，
+数量，价格信息。需要录入信息并更改，并且可以查询。
+二、系统设计
+（一）系统中的数据定义
+结构体（设备号char数组，名称char数组，生产厂家char数组，购买日期int，
+数量int，价格int）设备号可能有字母，所以用char，名称厂家同理。日期可以写成19990329之类的形式，所以用的int，数量价格应该是int。
+（二）系统的概要设计
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+（三）系统的详细设计
+
+用if语句进行分条实现6个功能，随着输入的数字，转到不同模块。
+（四）系统的核心算法
+Start：最开始的分块函数，xianshi：用for循环输出所有结构体数据，shuru：
+也是for循环赋值。Chazhao：用strcmp函数根据名字查找数据，shanchu；根据名字查找数据，并把所有n+1的结构体复制给n。Tuichu：return 0；
+三、系统编码及运行
+
+（一）系统开发涉及的软件
+Codeblock16.01
+（二）系统运行界面及结果
+
+
+四、系统测试
+可以正常运行。
+五、总结
+《软件工程》课程强调概念和知识的理解和掌握，侧重软件项目的分析、设计、实现和维护的基本技能。 是一门理论性较强的学科。
+
+附录（源代码）
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define COUNT 30
+
+void shuru();
+void xianshi();
+void chazhao();
+void zengjia();
+void shanchu();
+void tuichu();
+void start();
+
+struct  mmp
+{
+
+    char shebeihao[30];
+    char mingcheng[30];
+    char changjia[30];
+    int riqi;
+    int shuliang;
+    int jiage;
+
+} dev[COUNT];
+
+int count=0;
+
+int main()
+{
+    while(1)
+        start();
+
+}
+
+void start()
+{
+    int a;
+    printf("                        设备管理系统\n");
+    printf("              ********************************************\n");
+    printf("              1.输入数据:\n");
+    printf("              2.显示数据:\n");
+    printf("              3.查找数据:\n");
+    printf("              4.增加一条数据:\n");
+    printf("              5.删除一条数据:\n");
+    printf("              6.退出:\n");
+    printf("              ********************************************\n");
+    printf("              输入您想要的操作序号: ");
+    scanf("%d",&a);
+
+    if(a==1)
+        shuru();
+    else if(a==2)
+        xianshi();
+    else if(a==3)
+        chazhao();
+    else if(a==4)
+        zengjia();
+    else if(a==5)
+        shanchu();
+    else if(a==6)
+    {
+        printf("退出\n");
+        exit(0);
+    }
+    else
+    {
+        printf(" wrong! \n");
+    }
+
+}
+
+void shuru()
+{
+
+    char flag[20];
+    do
+    {
+        printf("请输入你的设备信息:\n");
+        printf("设备编号:");
+        scanf("%s",dev[count].shebeihao);
+        printf("设备名字:");
+        scanf("%s",dev[count].mingcheng);
+        printf("生产厂家:");
+        scanf("%s",dev[count].changjia);
+
+        printf("购买日期:");
+        scanf("%d",&dev[count].riqi);
+        printf("购买数量:");
+        scanf("%d",&dev[count].shuliang);
+        printf("设备价格:");
+        scanf("%d",&dev[count].jiage);
+
+        count++;
+        printf("是否继续输入数据 y是  n否 : ");
+        scanf("%s",flag);
+    }
+    while(strcmp(flag,"y")==0||strcmp(flag,"Y")==0);
+
+    xianshi();
+}
+
+void zengjia()
+
+{
+    shuru();
+}
+
+void shanchu()
+{
+    int i,j;
+    char c[20];
+    printf("\输入你想删除的设备 ：\n");
+    printf("名字：");
+    scanf("%s",c);
+    for(i=0; i<count; i++)
+        if(strcmp(c,dev[i].mingcheng)==0)
+            break;
+    for(j=i; j<count-1; j++)
+        dev[j]=dev[j+1];
+    printf("你已经删除了 %s\n",c);
+    count--;
+    xianshi();
+
+}
+void xianshi()
+{
+    int i;
+
+    printf("************************************************************************************************\n");
+    printf("设备编号 设备名称 厂家 购买时间 数量 价格 \n");
+    for(i=0; i<count; i++)
+    {
+        printf("%s     %s     %s     %d     %d     %d     \n",dev[i].shebeihao,dev[i].mingcheng,dev[i].changjia,dev[i].riqi,dev[i].shuliang,dev[i].jiage);
+    }
+    printf("************************************************************************************************\n");
+
+
+}
+
+void chazhao()
+{
+    int i;
+    char a[20],ch[10];
+    printf("name:");
+    scanf("%s",a);
+    for(i=0; i<count; i++)
+    {
+        if(strcmp(dev[i].mingcheng,a)==0)
+        {
+            printf("************************************************************************************************\n");
+            printf("设备编号 设备名称 厂家 购买时间 数量 价格 \n");
+            printf("%s     %s     %s     %d     %d     %d     \n",dev[i].shebeihao,dev[i].mingcheng,dev[i].changjia,dev[i].riqi,dev[i].shuliang,dev[i].jiage);
+            printf("************************************************************************************************\n");
+        }
+    }
+
+}
